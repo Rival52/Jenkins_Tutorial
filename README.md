@@ -151,6 +151,69 @@ Vous verrez :
 ### Conclusion
 
 Votre **configuration Master-Agent est prête !**  
-Vous pouvez maintenant créer plusieurs jobs et les exécuter sur les nœuds agents selon vos besoins. 💪
+Vous pouvez maintenant créer plusieurs jobs et les exécuter sur les nœuds agents selon vos besoins. 
+
+### Jenkins et GitHub : Intégration via PollSCM, Chaînes de Jobs et Déclencheurs Distants (git hooks)
+
+#### Intégration de Jenkins avec des hooks Git locaux et déploiement du code source dans des conteneurs Docker à l’aide de déclencheurs PollSCM.
+
+
+---
+
+###### Étape 1
+
+Déploiement de l’environnement de **test** sur Docker en utilisant un **hook Git (post-commit)**  
+lorsqu’un commit est effectué depuis une branche de développement (autre que `master`)  
+et que le job est planifié via **PollSCM**.
+
+**Hook Git utilisé : `post-commit`**
+
+Créer ou éditer le fichier :
+```bash
+vi .git/hooks/post-commit
+```
+
+Contenu du script :
+```bash
+#!/bin/bash
+echo "D'abord <git fetch>, puis les tâches post-commit commencent"
+git fetch
+git push
+echo "Le git push est terminé vers la branche distante actuelle"
+# echo "Déclenchement distant du build Jenkins via URL"
+# curl --user "<utilisateur>:<motdepasse>" <URL_Déclencheur_Distant>
+```
+
+📸 Configuration 1 :
+![Configuration Job 1](Images/job1i1.png)
+
+---
+
+###### Étape 2
+
+Déploiement de l’environnement de **production** uniquement lorsqu’il y a des modifications sur la branche `master`  
+(planifié via **PollSCM**).
+
+📸 Configuration 2 :
+![Configuration Job 2](Images/job2i2.png)
+
+---
+
+###### Étape 3
+
+Fusion de la branche de développement vers la branche `master` (branche principale),  
+déclenchée à distance via :
+
+```
+http://<jenkins-url>/job/job3/build?token=TOKEN
+```
+
+Authentification requise avec les identifiants Jenkins.
+
+Si ce job est exécuté avec succès, il déclenche automatiquement le **Job 2**.  
+Ce job est également planifié avec **PollSCM**.
+
+📸 Configuration 3 :
+![Configuration Job 3](Images/job3i3.png)
 
 
