@@ -28,7 +28,7 @@ sudo systemctl status jenkins
 ### Effectuer cette commande pour avoir le mdp
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
-## Configuration Master-Agent Jenkins (Étape 3)
+## Configuration Master-Agent Jenkins
 
 Ce tutoriel vous guide dans la configuration du **mode Master-Agent** dans Jenkins.
 
@@ -42,17 +42,18 @@ Ce tutoriel vous guide dans la configuration du **mode Master-Agent** dans Jenki
   
   ![Configurer un agent](Images/image1.webp)
 - Cliquez sur **« Nouveau nœud »** et donnez un **nom** à votre agent.
-
+  ![Configurer un agent](Images/image2.webp)
 ---
 
 ### 2. Configurer le nœud agent
+![Configurer un agent](Images/image3.webp)
 
 Renseignez les informations suivantes :
 
 - **Description :** *(Optionnel)* Ajoutez une description pour identifier l’agent.
 - **Nombre d’exécuteurs :**  
   Le nombre de tâches parallèles que cet agent peut exécuter.  
-  👉 Exemple : `2`
+  Exemple : `2`
 
 - **Répertoire racine distant :**  
   Jenkins stocke les espaces de travail ici.  
@@ -84,6 +85,7 @@ Cliquez sur **Enregistrer**.
 ### 3. Connexion de l’agent à partir du nœud master
 
 Après avoir enregistré, vous verrez une commande à exécuter.
+![Configurer un agent](Images/image4.webp)
 
 Exécutez cette commande sur votre nœud principal (master/controller) :
 
@@ -92,13 +94,16 @@ Exécutez cette commande sur votre nœud principal (master/controller) :
 java -jar agent.jar -jnlpUrl http://<jenkins-url>/computer/<nom-agent>/slave-agent.jnlp -secret <clé-secrète> -workDir "/opt/build"
 ```
 
-✅ Une fois la commande exécutée, l’agent devrait apparaître comme **Connecté** dans le tableau de bord Jenkins.
+Une fois la commande exécutée, l’agent devrait apparaître comme **Connecté** dans le tableau de bord Jenkins.
+![Configurer un agent](Images/image5.webp)
 
 ---
 
-## Tester la configuration avec un job
+### Tester la configuration avec un job
 
 ### 1. Créer un nouveau job
+![Configurer un agent](Images/image6.webp)
+
 
 - Allez dans **Nouvel élément**
 - Donnez un nom à votre projet (ex. : `Job-Demo`)
@@ -107,7 +112,7 @@ java -jar agent.jar -jnlpUrl http://<jenkins-url>/computer/<nom-agent>/slave-age
 
 ### 2. Configurer le job
 
-- ✅ Cochez **« Restreindre l’exécution du projet à un nœud spécifique »**
+- Cochez **« Restreindre l’exécution du projet à un nœud spécifique »**
 - Dans **Expression d’étiquette**, entrez le **label** de votre nœud agent (ex. : `agent-01`)
 - Dans **Étapes de build**, choisissez **Exécuter un script shell** et ajoutez :
 
@@ -123,6 +128,8 @@ Cliquez sur **Sauvegarder** puis **Appliquer**.
 ### 3. Lancer le job
 
 Avant de lancer, vérifiez le temps de fonctionnement (uptime) de votre agent :
+![Configurer un agent](Images/image7.webp)
+
 
 ```bash
 uptime
@@ -131,15 +138,17 @@ uptime
 ```
 
 Cliquez ensuite sur **Construire maintenant (Build Now)** dans Jenkins.
+![Configurer un agent](Images/image8.webp)
 
-🎉 Vous verrez :
+
+Vous verrez :
 
 - Le temps de fonctionnement de l’agent
 - Le chemin de l’espace de travail : `/opt/build/workspace/Job-Demo`
 
 ---
 
-## 🏁 Conclusion
+### Conclusion
 
 Votre **configuration Master-Agent est prête !**  
 Vous pouvez maintenant créer plusieurs jobs et les exécuter sur les nœuds agents selon vos besoins. 💪
