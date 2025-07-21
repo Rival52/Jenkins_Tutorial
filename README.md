@@ -39,6 +39,7 @@ Ce tutoriel vous guide dans la configuration du **mode Master-Agent** dans Jenki
 ### 1. Accéder à l’interface Jenkins
 
 - Cliquez sur **« Configurer un agent »**.
+  Interface Jenkins - Ajouter un agent](images/configurer-agent-jenkins.png
 - Cliquez sur **« Nouveau nœud »** et donnez un **nom** à votre agent.
 
 ---
