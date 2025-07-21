@@ -1,5 +1,6 @@
 #Tuto_Jenkins
 ## Installation
+
 ```bash
 sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
   https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
@@ -9,4 +10,23 @@ echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
 sudo apt-get update
 sudo apt-get install jenkins
 ```
+## Start Jenkins
+```bash
+### Activé Jenkins
+sudo systemctl enable jenkins
+
+### Start Jenkins Service
+sudo systemctl start jenkins
+
+### Tu peux vérifier
+sudo systemctl status jenkins
+```
+
+## Page Web Jenkins
+#### http://localhost:8080
+```bash
+### Effectuer cette commande pour avoir le mdp
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+
 
